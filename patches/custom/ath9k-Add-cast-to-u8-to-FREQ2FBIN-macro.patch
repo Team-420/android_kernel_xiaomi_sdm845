@@ -1,0 +1,97 @@
+From patchwork Thu Apr  6 21:21:35 2017
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-Patchwork-Submitter: Matthias Kaehlcke <mka@chromium.org>
+X-Patchwork-Id: 9668479
+X-Patchwork-Delegate: kvalo@adurom.com
+Return-Path: <linux-wireless-owner@kernel.org>
+Received: from mail.wl.linuxfoundation.org (pdx-wl-mail.web.codeaurora.org
+	[172.30.200.125])
+	by pdx-korg-patchwork.web.codeaurora.org (Postfix) with ESMTP id
+	64F4B602B3 for <patchwork-linux-wireless@patchwork.kernel.org>;
+	Thu,  6 Apr 2017 21:22:10 +0000 (UTC)
+Received: from mail.wl.linuxfoundation.org (localhost [127.0.0.1])
+	by mail.wl.linuxfoundation.org (Postfix) with ESMTP id A037926BE9
+	for <patchwork-linux-wireless@patchwork.kernel.org>;
+	Thu,  6 Apr 2017 21:22:10 +0000 (UTC)
+Received: by mail.wl.linuxfoundation.org (Postfix, from userid 486)
+	id 94FB027D4A; Thu,  6 Apr 2017 21:22:10 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
+	pdx-wl-mail.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-6.4 required=2.0 tests=BAYES_00, RCVD_IN_DNSWL_HI,
+	RCVD_IN_SORBS_SPAM autolearn=ham version=3.3.1
+Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
+	by mail.wl.linuxfoundation.org (Postfix) with ESMTP id 2BDA526BE9
+	for <patchwork-linux-wireless@patchwork.kernel.org>;
+	Thu,  6 Apr 2017 21:22:10 +0000 (UTC)
+Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
+	id S1753663AbdDFVWH (ORCPT
+	<rfc822;patchwork-linux-wireless@patchwork.kernel.org>);
+	Thu, 6 Apr 2017 17:22:07 -0400
+Received: from mail-pg0-f45.google.com ([74.125.83.45]:34671 "EHLO
+	mail-pg0-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+	with ESMTP id S1753160AbdDFVWA (ORCPT
+	<rfc822;linux-wireless@vger.kernel.org>);
+	Thu, 6 Apr 2017 17:22:00 -0400
+Received: by mail-pg0-f45.google.com with SMTP id 21so46731211pgg.1
+	for <linux-wireless@vger.kernel.org>;
+	Thu, 06 Apr 2017 14:22:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=/v34pnS7xT/iaihiYHkXTjV/MxcB30p/JZYKMiUSZDc=;
+	b=YIeIMFt4SgfQD56JxYVVlgkXsqVJIFbzk4xnLeiSC15U6bGTJDKU3TaN9O0Q3SDgk4
+	CPwThwuuuF0ZGO61492Arv9k633STTr1qj9OklLNAo2cw5CdxpXViQgkmN1KYu/FlOxt
+	+4ApfxpIftXfijJVPC4/ehkBCI2X1RTdv//RpT0Te4wwlgaWTVxGXet1kIx9cK94ihMW
+	ULTlTjo976LSl/PTKy0lE1lgT4POmJBHKOU4PP3IqKxYlHDYDaRMQ+lEKpRO0h9m12b+
+	XegRqmKJCMZG8DhxO39/VuyaCskkLP4x8I1csUHA4/ijyOYNC0fX9P7IoaEE3iaMSvEU
+	+ogQ==
+X-Gm-Message-State: 
+ AFeK/H0YRqzWmnPFxCupzUfut1cIVuJCKnsNkMRBEZexI/rG8nAhJ6Kd86GLbwo7Yu2T4DEM
+X-Received: by 10.98.155.28 with SMTP id r28mr37133339pfd.212.1491513718877;
+	Thu, 06 Apr 2017 14:21:58 -0700 (PDT)
+Received: from mka.mtv.corp.google.com ([172.22.64.162])
+	by smtp.gmail.com with ESMTPSA id
+	g5sm5379154pfj.99.2017.04.06.14.21.57
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 06 Apr 2017 14:21:58 -0700 (PDT)
+From: Matthias Kaehlcke <mka@chromium.org>
+To: Kalle Valo <kvalo@codeaurora.org>,
+	ath9k Development <ath9k-devel@qca.qualcomm.com>
+Cc: linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
+	netdev@vger.kernel.org, Grant Grundler <grundler@chromium.org>,
+	Matthias Kaehlcke <mka@chromium.org>
+Subject: [PATCH] ath9k: Add cast to u8 to FREQ2FBIN macro
+Date: Thu,  6 Apr 2017 14:21:35 -0700
+Message-Id: <20170406212135.72157-1-mka@chromium.org>
+X-Mailer: git-send-email 2.12.2.715.g7642488e1d-goog
+Sender: linux-wireless-owner@vger.kernel.org
+Precedence: bulk
+List-ID: <linux-wireless.vger.kernel.org>
+X-Mailing-List: linux-wireless@vger.kernel.org
+X-Virus-Scanned: ClamAV using ClamSMTP
+
+The macro results are assigned to u8 variables/fields. Adding the cast
+fixes plenty of clang warnings about "implicit conversion from 'int' to
+'u8'".
+
+Signed-off-by: Matthias Kaehlcke <mka@chromium.org>
+---
+ drivers/net/wireless/ath/ath9k/eeprom.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/net/wireless/ath/ath9k/eeprom.h b/drivers/net/wireless/ath/ath9k/eeprom.h
+index 30bf722e33ed..31390af6c33e 100644
+--- a/drivers/net/wireless/ath/ath9k/eeprom.h
++++ b/drivers/net/wireless/ath/ath9k/eeprom.h
+@@ -106,7 +106,7 @@
+ #define AR9285_RDEXT_DEFAULT    0x1F
+ 
+ #define ATH9K_POW_SM(_r, _s)	(((_r) & 0x3f) << (_s))
+-#define FREQ2FBIN(x, y)		((y) ? ((x) - 2300) : (((x) - 4800) / 5))
++#define FREQ2FBIN(x, y)		(u8)((y) ? ((x) - 2300) : (((x) - 4800) / 5))
+ #define FBIN2FREQ(x, y)		((y) ? (2300 + x) : (4800 + 5 * x))
+ #define ath9k_hw_use_flash(_ah)	(!(_ah->ah_flags & AH_USE_EEPROM))
+ 

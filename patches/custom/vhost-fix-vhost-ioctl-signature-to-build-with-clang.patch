@@ -1,0 +1,141 @@
+From patchwork Wed Mar 14 17:05:06 2018
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-Patchwork-Submitter: Sonny Rao <sonnyrao@chromium.org>
+X-Patchwork-Id: 10283019
+Return-Path: <kvm-owner@kernel.org>
+Received: from mail.wl.linuxfoundation.org (pdx-wl-mail.web.codeaurora.org
+	[172.30.200.125])
+	by pdx-korg-patchwork.web.codeaurora.org (Postfix) with ESMTP id
+	CBE0C6061F for <patchwork-kvm@patchwork.kernel.org>;
+	Wed, 14 Mar 2018 17:05:35 +0000 (UTC)
+Received: from mail.wl.linuxfoundation.org (localhost [127.0.0.1])
+	by mail.wl.linuxfoundation.org (Postfix) with ESMTP id BC24D284F4
+	for <patchwork-kvm@patchwork.kernel.org>;
+	Wed, 14 Mar 2018 17:05:35 +0000 (UTC)
+Received: by mail.wl.linuxfoundation.org (Postfix, from userid 486)
+	id AE98128505; Wed, 14 Mar 2018 17:05:35 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
+	pdx-wl-mail.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-6.8 required=2.0 tests=BAYES_00,DKIM_SIGNED,
+	RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=unavailable version=3.3.1
+Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
+	by mail.wl.linuxfoundation.org (Postfix) with ESMTP id A8BD52850D
+	for <patchwork-kvm@patchwork.kernel.org>;
+	Wed, 14 Mar 2018 17:05:34 +0000 (UTC)
+Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
+	id S1751976AbeCNRFP (ORCPT
+	<rfc822;patchwork-kvm@patchwork.kernel.org>);
+	Wed, 14 Mar 2018 13:05:15 -0400
+Received: from mail-pg0-f65.google.com ([74.125.83.65]:34113 "EHLO
+	mail-pg0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+	with ESMTP id S1751880AbeCNRFN (ORCPT <rfc822; kvm@vger.kernel.org>);
+	Wed, 14 Mar 2018 13:05:13 -0400
+Received: by mail-pg0-f65.google.com with SMTP id m15so1632679pgc.1
+	for <kvm@vger.kernel.org>; Wed, 14 Mar 2018 10:05:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20161025;
+	h=sender:from:to:cc:subject:date:message-id;
+	bh=WD2DucwMhMI0ZizOz45tkFkX/SvzzTDuamwp67gOrRM=;
+	b=fvayE/q219chPixlPH9kZreUl08jTLj6ZzHWerAKtGHWrRQKEzFhHrcR36NIpDIre9
+	9dA2+A5WnDJ03PiHRTp5ZN5oVZ5WwihvOlyqF2sypW9/dYK9BIYUWL1U8+zRAWOG9hVs
+	RPao5txTDikp+JvlLhTWL1ymyIB3TYTMgCD5RM3wCg4GcyrSwCrqpDyFXqpkk8y69oTv
+	YkWnZ8+8aV7kBOJxis947zw9HmOo772z82iT2pL2nbtjZj5bl1ArnF6Gu1DH+Wxowrpq
+	1fM/IffjQeh63eCdu+TyrBWsvyBYKPOIIwe9O1LiRzif1h2p9hGxBOWzRmU57HJ8kAAJ
+	oczA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
+	bh=WD2DucwMhMI0ZizOz45tkFkX/SvzzTDuamwp67gOrRM=;
+	b=WxdW/OFap/TiG2YoiHFMsTyvfUsc9pUOy/MyNZ/p+Sa0a/wVqny1ziR5bqojK/f4TF
+	jVdIyrhyKV9PQ6njkbq934IXZc66Lk4PKi9OVcVh6w0qn1L5JM26WKd++QpsYdpW5A54
+	FkzoENnruAiHxKtIZTt3OcwSyR3XEuyawPG4nfJBltcie3SYjlhB6nsC+igOBj1QiQHj
+	Ru+a0JBqhkENb5kr5mPPggiXefdk4rv/XTQ7woh5OCl7IDRrQ7/HWxdAltP+SvY1kk1X
+	E2F+X7eqwcILuapLZXLAA+mcpSDDXVbbO1VUqrLNSNL4/YkIRua/bQtm4PRHQV0YUAE8
+	pvAA==
+X-Gm-Message-State: AElRT7G1ERTLm79FjY1VM/+apFju5o4nlMOlxn8OrvbesGhFe8FUQlcl
+	0I4qyKwWS98IzCc5SraxgrlEU4wTt68=
+X-Google-Smtp-Source: 
+ AG47ELu53CL2qmprMR+P519rINolEpM4TDbzp0VlyFyCKDl0s4YBlTcMbDBF28iPSFtOHOm+LvBsww==
+X-Received: by 10.99.177.7 with SMTP id r7mr4302740pgf.76.1521047111570;
+	Wed, 14 Mar 2018 10:05:11 -0700 (PDT)
+Received: from sonnyrao2.sfo.corp.google.com
+	([2620:0:1002:1006:c674:637e:8d02:f758])
+	by smtp.gmail.com with ESMTPSA id
+	c4sm5817006pgt.24.2018.03.14.10.05.09
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 14 Mar 2018 10:05:09 -0700 (PDT)
+From: Sonny Rao <sonnyrao@chromium.org>
+To: kvm@vger.kernel.org
+Cc: "Michael S . Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+	virtualization@lists.linux-foundation.org, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] vhost: fix vhost ioctl signature to build with clang
+Date: Wed, 14 Mar 2018 10:05:06 -0700
+Message-Id: <20180314170506.121791-1-sonnyrao@chromium.org>
+X-Mailer: git-send-email 2.16.2.804.g6dcf76e118-goog
+Sender: kvm-owner@vger.kernel.org
+Precedence: bulk
+List-ID: <kvm.vger.kernel.org>
+X-Mailing-List: kvm@vger.kernel.org
+X-Virus-Scanned: ClamAV using ClamSMTP
+
+Clang is particularly anal about signed vs unsigned comparisons and
+doesn't like the fact that some ioctl numbers set the MSB, so we get
+this error when trying to build vhost on aarch64:
+
+drivers/vhost/vhost.c:1400:7: error: overflow converting case value to
+ switch condition type (3221794578 to 18446744072636378898)
+ [-Werror, -Wswitch]
+        case VHOST_GET_VRING_BASE:
+
+3221794578 is 0xC008AF12 in hex
+18446744072636378898 is 0xFFFFFFFFC008AF12 in hex
+
+Fix this by using unsigned ints in the function signature for
+vhost_vring_ioctl().
+
+Signed-off-by: Sonny Rao <sonnyrao@chromium.org>
+Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
+---
+ drivers/vhost/vhost.c | 2 +-
+ drivers/vhost/vhost.h | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/vhost/vhost.c b/drivers/vhost/vhost.c
+index 1b3e8d2d5c8b4..5316319d84081 100644
+--- a/drivers/vhost/vhost.c
++++ b/drivers/vhost/vhost.c
+@@ -1337,7 +1337,7 @@ static long vhost_set_memory(struct vhost_dev *d, struct vhost_memory __user *m)
+ 	return -EFAULT;
+ }
+ 
+-long vhost_vring_ioctl(struct vhost_dev *d, int ioctl, void __user *argp)
++long vhost_vring_ioctl(struct vhost_dev *d, unsigned int ioctl, void __user *argp)
+ {
+ 	struct file *eventfp, *filep = NULL;
+ 	bool pollstart = false, pollstop = false;
+diff --git a/drivers/vhost/vhost.h b/drivers/vhost/vhost.h
+index ac4b6056f19ae..d8ee85ae8fdcc 100644
+--- a/drivers/vhost/vhost.h
++++ b/drivers/vhost/vhost.h
+@@ -45,7 +45,7 @@ void vhost_poll_stop(struct vhost_poll *poll);
+ void vhost_poll_flush(struct vhost_poll *poll);
+ void vhost_poll_queue(struct vhost_poll *poll);
+ void vhost_work_flush(struct vhost_dev *dev, struct vhost_work *work);
+-long vhost_vring_ioctl(struct vhost_dev *d, int ioctl, void __user *argp);
++long vhost_vring_ioctl(struct vhost_dev *d, unsigned int ioctl, void __user *argp);
+ 
+ struct vhost_log {
+ 	u64 addr;
+@@ -177,7 +177,7 @@ void vhost_dev_reset_owner(struct vhost_dev *, struct vhost_umem *);
+ void vhost_dev_cleanup(struct vhost_dev *);
+ void vhost_dev_stop(struct vhost_dev *);
+ long vhost_dev_ioctl(struct vhost_dev *, unsigned int ioctl, void __user *argp);
+-long vhost_vring_ioctl(struct vhost_dev *d, int ioctl, void __user *argp);
++long vhost_vring_ioctl(struct vhost_dev *d, unsigned int ioctl, void __user *argp);
+ int vhost_vq_access_ok(struct vhost_virtqueue *vq);
+ int vhost_log_access_ok(struct vhost_dev *);
+ 

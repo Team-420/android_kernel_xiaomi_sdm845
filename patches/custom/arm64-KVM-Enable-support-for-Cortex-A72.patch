@@ -1,0 +1,147 @@
+From patchwork Wed Aug 24 07:21:37 2016
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-Patchwork-Submitter: Shannon Zhao <zhaoshenglong@huawei.com>
+X-Patchwork-Id: 9296943
+Return-Path: 
+ <linux-arm-kernel-bounces+patchwork-linux-arm=patchwork.kernel.org@lists.infradead.org>
+Received: from mail.wl.linuxfoundation.org (pdx-wl-mail.web.codeaurora.org
+	[172.30.200.125])
+	by pdx-korg-patchwork.web.codeaurora.org (Postfix) with ESMTP id
+	AAD6B607F0 for <patchwork-linux-arm@patchwork.kernel.org>;
+	Wed, 24 Aug 2016 07:24:42 +0000 (UTC)
+Received: from mail.wl.linuxfoundation.org (localhost [127.0.0.1])
+	by mail.wl.linuxfoundation.org (Postfix) with ESMTP id 9AA8F28E46
+	for <patchwork-linux-arm@patchwork.kernel.org>;
+	Wed, 24 Aug 2016 07:24:42 +0000 (UTC)
+Received: by mail.wl.linuxfoundation.org (Postfix, from userid 486)
+	id 8E84E28E45; Wed, 24 Aug 2016 07:24:42 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
+	pdx-wl-mail.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-4.2 required=2.0 tests=BAYES_00, RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
+Received: from bombadil.infradead.org (bombadil.infradead.org
+	[198.137.202.9])
+	(using TLSv1.2 with cipher AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by mail.wl.linuxfoundation.org (Postfix) with ESMTPS id 0A2CB28E45
+	for <patchwork-linux-arm@patchwork.kernel.org>;
+	Wed, 24 Aug 2016 07:24:42 +0000 (UTC)
+Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtp (Exim 4.85_2 #1 (Red Hat Linux))
+	id 1bcSX0-0002ox-Cg; Wed, 24 Aug 2016 07:23:26 +0000
+Received: from szxga01-in.huawei.com ([58.251.152.64])
+	by bombadil.infradead.org with esmtps (Exim 4.85_2 #1 (Red Hat
+	Linux)) id 1bcSWt-0002F6-Qp
+	for linux-arm-kernel@lists.infradead.org;
+	Wed, 24 Aug 2016 07:23:24 +0000
+Received: from 172.24.1.137 (EHLO szxeml432-hub.china.huawei.com)
+	([172.24.1.137])
+	by szxrg01-dlp.huawei.com (MOS 4.3.7-GA FastPath queued)
+	with ESMTP id DPY29502; Wed, 24 Aug 2016 15:21:58 +0800 (CST)
+Received: from HGHY1Z002260041.china.huawei.com (10.177.16.142) by
+	szxeml432-hub.china.huawei.com (10.82.67.209) with Microsoft SMTP
+	Server id 14.3.235.1; Wed, 24 Aug 2016 15:21:48 +0800
+From: Shannon Zhao <zhaoshenglong@huawei.com>
+To: <kvmarm@lists.cs.columbia.edu>, <marc.zyngier@arm.com>,
+	<christoffer.dall@linaro.org>
+Subject: [PATCH] arm64: KVM: Enable support for Cortex-A72
+Date: Wed, 24 Aug 2016 15:21:37 +0800
+Message-ID: <1472023297-2756-1-git-send-email-zhaoshenglong@huawei.com>
+X-Mailer: git-send-email 1.9.0.msysgit.0
+MIME-Version: 1.0
+X-Originating-IP: [10.177.16.142]
+X-CFilter-Loop: Reflected
+X-Mirapoint-Virus-RAPID-Raw: score=unknown(0),
+	refid=str=0001.0A020204.57BD4B18.00D6, ss=1, re=0.000, recu=0.000,
+	reip=0.000, cl=1, cld=1, fgs=0, ip=0.0.0.0,
+	so=2013-06-18 04:22:30, dmn=2013-03-21 17:37:32
+X-Mirapoint-Loop-Id: 0fe1cc70ad9a76bb6eb7a53c81d98be5
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20160824_002322_280318_CC9B75AC 
+X-CRM114-Status: GOOD (  10.73  )
+X-BeenThere: linux-arm-kernel@lists.infradead.org
+X-Mailman-Version: 2.1.20
+Precedence: list
+List-Id: <linux-arm-kernel.lists.infradead.org>
+List-Unsubscribe: 
+ <http://lists.infradead.org/mailman/options/linux-arm-kernel>,
+	<mailto:linux-arm-kernel-request@lists.infradead.org?subject=unsubscribe>
+List-Archive: <http://lists.infradead.org/pipermail/linux-arm-kernel/>
+List-Post: <mailto:linux-arm-kernel@lists.infradead.org>
+List-Help: <mailto:linux-arm-kernel-request@lists.infradead.org?subject=help>
+List-Subscribe: 
+ <http://lists.infradead.org/mailman/listinfo/linux-arm-kernel>,
+	<mailto:linux-arm-kernel-request@lists.infradead.org?subject=subscribe>
+Cc: shannon.zhao@linaro.org, linux-arm-kernel@lists.infradead.org
+Sender: "linux-arm-kernel" <linux-arm-kernel-bounces@lists.infradead.org>
+Errors-To: 
+ linux-arm-kernel-bounces+patchwork-linux-arm=patchwork.kernel.org@lists.infradead.org
+X-Virus-Scanned: ClamAV using ClamSMTP
+
+In order to allow KVM to run on Cortex-A72 physical cpus, enable KVM
+support for Cortex-A72.
+
+Signed-off-by: Shannon Zhao <shannon.zhao@linaro.org>
+---
+ arch/arm64/include/asm/cputype.h     | 1 +
+ arch/arm64/include/uapi/asm/kvm.h    | 3 ++-
+ arch/arm64/kvm/guest.c               | 2 ++
+ arch/arm64/kvm/sys_regs_generic_v8.c | 2 ++
+ 4 files changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/arch/arm64/include/asm/cputype.h b/arch/arm64/include/asm/cputype.h
+index 9d9fd4b..cf1f638 100644
+--- a/arch/arm64/include/asm/cputype.h
++++ b/arch/arm64/include/asm/cputype.h
+@@ -76,6 +76,7 @@
+ #define ARM_CPU_PART_FOUNDATION		0xD00
+ #define ARM_CPU_PART_CORTEX_A57		0xD07
+ #define ARM_CPU_PART_CORTEX_A53		0xD03
++#define ARM_CPU_PART_CORTEX_A72		0xD08
+ 
+ #define APM_CPU_PART_POTENZA		0x000
+ 
+diff --git a/arch/arm64/include/uapi/asm/kvm.h b/arch/arm64/include/uapi/asm/kvm.h
+index f209ea1..af8fbeb 100644
+--- a/arch/arm64/include/uapi/asm/kvm.h
++++ b/arch/arm64/include/uapi/asm/kvm.h
+@@ -65,8 +65,9 @@ struct kvm_regs {
+ #define KVM_ARM_TARGET_CORTEX_A53	4
+ /* Generic ARM v8 target */
+ #define KVM_ARM_TARGET_GENERIC_V8	5
++#define KVM_ARM_TARGET_CORTEX_A72	6
+ 
+-#define KVM_ARM_NUM_TARGETS		6
++#define KVM_ARM_NUM_TARGETS		7
+ 
+ /* KVM_ARM_SET_DEVICE_ADDR ioctl id encoding */
+ #define KVM_ARM_DEVICE_TYPE_SHIFT	0
+diff --git a/arch/arm64/kvm/guest.c b/arch/arm64/kvm/guest.c
+index 32fad75..7eed92e 100644
+--- a/arch/arm64/kvm/guest.c
++++ b/arch/arm64/kvm/guest.c
+@@ -293,6 +293,8 @@ int __attribute_const__ kvm_target_cpu(void)
+ 			return KVM_ARM_TARGET_CORTEX_A53;
+ 		case ARM_CPU_PART_CORTEX_A57:
+ 			return KVM_ARM_TARGET_CORTEX_A57;
++		case ARM_CPU_PART_CORTEX_A72:
++			return KVM_ARM_TARGET_CORTEX_A72;
+ 		};
+ 		break;
+ 	case ARM_CPU_IMP_APM:
+diff --git a/arch/arm64/kvm/sys_regs_generic_v8.c b/arch/arm64/kvm/sys_regs_generic_v8.c
+index ed90578..cf823e1 100644
+--- a/arch/arm64/kvm/sys_regs_generic_v8.c
++++ b/arch/arm64/kvm/sys_regs_generic_v8.c
+@@ -92,6 +92,8 @@ static int __init sys_reg_genericv8_init(void)
+ 					  &genericv8_target_table);
+ 	kvm_register_target_sys_reg_table(KVM_ARM_TARGET_CORTEX_A57,
+ 					  &genericv8_target_table);
++	kvm_register_target_sys_reg_table(KVM_ARM_TARGET_CORTEX_A72,
++					  &genericv8_target_table);
+ 	kvm_register_target_sys_reg_table(KVM_ARM_TARGET_XGENE_POTENZA,
+ 					  &genericv8_target_table);
+ 	kvm_register_target_sys_reg_table(KVM_ARM_TARGET_GENERIC_V8,
