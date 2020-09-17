@@ -1,0 +1,7 @@
+source "rtl8812au/Kconfig"
+
+source "rtl8188eus/Kconfig"
+
+source "rtl8188fu/Kconfig"
+
+source "rtl8192eu/Kconfig"
