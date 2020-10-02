@@ -21,6 +21,7 @@ make O=out -j8
 make O=out -j8 INSTALL_MOD_PATH=MODULES_OUT modules_install
 # make O=out bindeb-pkg 
 cp out/arch/arm64/boot/Image.gz-dtb anykernel/Image.gz-dtb
+rm -rf anykernel/modules/system/lib/modules/*
 cp -r out/MODULES_OUT/lib/modules/4.9* anykernel/modules/system/lib/modules/
 rm  anykernel/modules/system/lib/modules/*/build
 rm  anykernel/modules/system/lib/modules/*/source

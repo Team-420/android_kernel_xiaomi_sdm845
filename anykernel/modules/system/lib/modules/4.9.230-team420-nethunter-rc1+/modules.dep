@@ -1,0 +1,16 @@
+kernel/drivers/usb/gadget/legacy/g_audio.ko:
+kernel/drivers/usb/gadget/legacy/g_ether.ko:
+kernel/drivers/usb/gadget/legacy/gadgetfs.ko:
+kernel/drivers/usb/gadget/legacy/g_ffs.ko:
+kernel/drivers/usb/gadget/legacy/g_mass_storage.ko:
+kernel/drivers/usb/gadget/legacy/g_serial.ko:
+kernel/drivers/usb/gadget/legacy/g_printer.ko:
+kernel/drivers/usb/gadget/legacy/g_midi.ko:
+kernel/drivers/usb/gadget/legacy/g_cdc.ko:
+kernel/drivers/usb/gadget/legacy/g_hid.ko:
+kernel/drivers/usb/gadget/legacy/g_dbgp.ko:
+kernel/drivers/usb/gadget/legacy/g_multi.ko:
+kernel/drivers/usb/gadget/legacy/g_nokia.ko:
+kernel/drivers/usb/gadget/legacy/g_webcam.ko:
+kernel/drivers/usb/gadget/legacy/g_ncm.ko:
+kernel/drivers/usb/gadget/legacy/g_acm_ms.ko:
