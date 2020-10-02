@@ -229,10 +229,7 @@ static void _rt2500usb_register_read(struct rt2x00_dev *rt2x00dev,
 				     const unsigned int offset,
 				     u32 *value)
 {
-	u16 tmp;
-
-	rt2500usb_register_read(rt2x00dev, offset, &tmp);
-	*value = tmp;
+	rt2500usb_register_read(rt2x00dev, offset, (u16 *)value);
 }
 
 static void _rt2500usb_register_write(struct rt2x00_dev *rt2x00dev,
@@ -437,10 +434,8 @@ static void rt2500usb_config_filter(struct rt2x00_dev *rt2x00dev,
 			   !(filter_flags & FIF_PLCPFAIL));
 	rt2x00_set_field16(&reg, TXRX_CSR2_DROP_CONTROL,
 			   !(filter_flags & FIF_CONTROL));
-	rt2x00_set_field16(&reg, TXRX_CSR2_DROP_NOT_TO_ME,
-			   !test_bit(CONFIG_MONITORING, &rt2x00dev->flags));
+	rt2x00_set_field16(&reg, TXRX_CSR2_DROP_NOT_TO_ME, 1);
 	rt2x00_set_field16(&reg, TXRX_CSR2_DROP_TODS,
-			   !test_bit(CONFIG_MONITORING, &rt2x00dev->flags) &&
 			   !rt2x00dev->intf_ap_count);
 	rt2x00_set_field16(&reg, TXRX_CSR2_DROP_VERSION_ERROR, 1);
 	rt2x00_set_field16(&reg, TXRX_CSR2_DROP_MULTICAST,

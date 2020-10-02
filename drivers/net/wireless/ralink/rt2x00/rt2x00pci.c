@@ -149,7 +149,6 @@ exit_free_device:
 	ieee80211_free_hw(hw);
 
 exit_release_regions:
-	pci_clear_mwi(pci_dev);
 	pci_release_regions(pci_dev);
 
 exit_disable_device:
@@ -174,7 +173,6 @@ void rt2x00pci_remove(struct pci_dev *pci_dev)
 	/*
 	 * Free the PCI device data.
 	 */
-	pci_clear_mwi(pci_dev);
 	pci_disable_device(pci_dev);
 	pci_release_regions(pci_dev);
 }

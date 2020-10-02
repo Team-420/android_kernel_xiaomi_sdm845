@@ -646,9 +646,10 @@ static void rt2800usb_txdone_nostatus(struct rt2x00_dev *rt2x00dev)
 			    !test_bit(ENTRY_DATA_STATUS_PENDING, &entry->flags))
 				break;
 
-			if (test_bit(ENTRY_DATA_IO_FAILED, &entry->flags) ||
-			    rt2800usb_entry_txstatus_timeout(entry))
+			if (test_bit(ENTRY_DATA_IO_FAILED, &entry->flags))
 				rt2x00lib_txdone_noinfo(entry, TXDONE_FAILURE);
+			else if (rt2800usb_entry_txstatus_timeout(entry))
+				rt2x00lib_txdone_noinfo(entry, TXDONE_UNKNOWN);
 			else
 				break;
 		}
@@ -1025,7 +1026,6 @@ static struct usb_device_id rt2800usb_device_table[] = {
 	{ USB_DEVICE(0x0411, 0x01a2) },
 	{ USB_DEVICE(0x0411, 0x01ee) },
 	{ USB_DEVICE(0x0411, 0x01a8) },
-	{ USB_DEVICE(0x0411, 0x01fd) },
 	/* Corega */
 	{ USB_DEVICE(0x07aa, 0x002f) },
 	{ USB_DEVICE(0x07aa, 0x003c) },
