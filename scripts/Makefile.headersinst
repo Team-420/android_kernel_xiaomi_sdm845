@@ -106,28 +106,7 @@ quiet_cmd_check = CHECK   $(printdir) ($(words $(all-files)) files)
                   $(PERL) $< $(INSTALL_HDR_PATH)/include $(SRCARCH); \
 	          touch $@
 
-ifndef HDRCHECK
-# Rules for installing headers
-__headers: $(install-file)
-	@:
 
-targets += $(install-file)
-$(install-file): scripts/headers_install.sh \
-		$(addprefix $(srcdir)/,$(header-files)) \
-		$(addprefix $(gendir)/,$(genhdr-files)) FORCE
-	$(if $(unwanted),$(call cmd,remove),)
-	$(if $(wildcard $(dir $@)),,$(shell mkdir -p $(dir $@)))
-	$(call if_changed,install)
-
-else
-__headers: $(check-file)
-	@:
-
-targets += $(check-file)
-$(check-file): scripts/headers_check.pl $(output-files) FORCE
-	$(call if_changed,check)
-
-endif
 
 targets := $(wildcard $(sort $(targets)))
 cmd_files := $(wildcard \
