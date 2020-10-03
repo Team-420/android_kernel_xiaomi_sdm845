@@ -1,0 +1,6 @@
+menu "3-party drivers"
+menu "Aircrack"
+source "drivers/3party/rtl8188eus/Kconfig"
+source "drivers/3party/rtl8812au/Kconfig"
+endmenu
+endmenu

@@ -19,6 +19,7 @@
  */
 
 /* Netlink configuration messages.  */
+#include <linux/types.h>
 enum {
 	CRYPTO_MSG_BASE = 0x10,
 	CRYPTO_MSG_NEWALG = 0x10,

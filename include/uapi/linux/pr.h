@@ -1,3 +1,4 @@
+#include <linux/types.h>
 #ifndef _UAPI_PR_H
 #define _UAPI_PR_H
 
