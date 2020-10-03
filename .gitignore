@@ -53,6 +53,7 @@ Module.symvers
 /System.map
 /Module.markers
 /out
+/kali*
 
 #
 # Debian directory (make deb-pkg)
