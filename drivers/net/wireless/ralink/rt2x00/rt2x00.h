@@ -38,6 +38,7 @@
 #include <linux/kfifo.h>
 #include <linux/hrtimer.h>
 #include <linux/average.h>
+#include <linux/usb.h>
 
 #include <net/mac80211.h>
 
@@ -107,7 +108,7 @@
  * amount of bytes needed to move the data.
  */
 #define ALIGN_SIZE(__skb, __header) \
-	(  ((unsigned long)((__skb)->data + (__header))) & 3 )
+	(((unsigned long)((__skb)->data + (__header))) & 3)
 
 /*
  * Constants for extra TX headroom for alignment purposes.
@@ -128,14 +129,14 @@
 #define SLOT_TIME		20
 #define SHORT_SLOT_TIME		9
 #define SIFS			10
-#define PIFS			( SIFS + SLOT_TIME )
-#define SHORT_PIFS		( SIFS + SHORT_SLOT_TIME )
-#define DIFS			( PIFS + SLOT_TIME )
-#define SHORT_DIFS		( SHORT_PIFS + SHORT_SLOT_TIME )
-#define EIFS			( SIFS + DIFS + \
-				  GET_DURATION(IEEE80211_HEADER + ACK_SIZE, 10) )
-#define SHORT_EIFS		( SIFS + SHORT_DIFS + \
-				  GET_DURATION(IEEE80211_HEADER + ACK_SIZE, 10) )
+#define PIFS			(SIFS + SLOT_TIME)
+#define SHORT_PIFS		(SIFS + SHORT_SLOT_TIME)
+#define DIFS			(PIFS + SLOT_TIME)
+#define SHORT_DIFS		(SHORT_PIFS + SHORT_SLOT_TIME)
+#define EIFS			(SIFS + DIFS + \
+				  GET_DURATION(IEEE80211_HEADER + ACK_SIZE, 10))
+#define SHORT_EIFS		(SIFS + SHORT_DIFS + \
+				  GET_DURATION(IEEE80211_HEADER + ACK_SIZE, 10))
 
 enum rt2x00_chip_intf {
 	RT2X00_CHIP_INTF_PCI,
@@ -668,7 +669,7 @@ enum rt2x00_state_flags {
 	CONFIG_CHANNEL_HT40,
 	CONFIG_POWERSAVING,
 	CONFIG_HT_DISABLED,
-	CONFIG_QOS_DISABLED,
+	CONFIG_MONITORING,
 
 	/*
 	 * Mark we currently are sequentially reading TX_STA_FIFO register
@@ -1001,6 +1002,8 @@ struct rt2x00_dev {
 
 	/* Extra TX headroom required for alignment purposes. */
 	unsigned int extra_tx_headroom;
+
+	struct usb_anchor *anchor;
 };
 
 struct rt2x00_bar_list_entry {

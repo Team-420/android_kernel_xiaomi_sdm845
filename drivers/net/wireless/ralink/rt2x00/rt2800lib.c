@@ -4706,8 +4706,8 @@ static int rt2800_init_registers(struct rt2x00_dev *rt2x00dev)
 		rt2x00_set_field32(&reg, MAX_LEN_CFG_MAX_PSDU, 2);
 	else
 		rt2x00_set_field32(&reg, MAX_LEN_CFG_MAX_PSDU, 1);
-	rt2x00_set_field32(&reg, MAX_LEN_CFG_MIN_PSDU, 0);
-	rt2x00_set_field32(&reg, MAX_LEN_CFG_MIN_MPDU, 0);
+	rt2x00_set_field32(&reg, MAX_LEN_CFG_MIN_PSDU, 10);
+	rt2x00_set_field32(&reg, MAX_LEN_CFG_MIN_MPDU, 10);
 	rt2800_register_write(rt2x00dev, MAX_LEN_CFG, reg);
 
 	rt2800_register_read(rt2x00dev, LED_CFG, &reg);
@@ -7490,6 +7490,10 @@ static int rt2800_probe_hw_mode(struct rt2x00_dev *rt2x00dev)
 	 */
 	if (!rt2x00_is_usb(rt2x00dev))
 		ieee80211_hw_set(rt2x00dev->hw, HOST_BROADCAST_PS_BUFFERING);
+
+	/* Set MFP if HW crypto is disabled. */
+	if (rt2800_hwcrypt_disabled(rt2x00dev))
+		ieee80211_hw_set(rt2x00dev->hw, MFP_CAPABLE);
 
 	SET_IEEE80211_DEV(rt2x00dev->hw, rt2x00dev->dev);
 	SET_IEEE80211_PERM_ADDR(rt2x00dev->hw,
