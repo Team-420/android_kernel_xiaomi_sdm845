@@ -1,3 +1,4 @@
+#include <linux/types.h>
 #ifndef _LINUX_BCACHE_H
 #define _LINUX_BCACHE_H
 
